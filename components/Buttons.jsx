@@ -1,16 +1,13 @@
 import * as React from 'react'
 import { Button, Radio, Icon } from 'antd';
 
-interface S {
-  size: "small" | "default" | "large" | undefined
-}
 
-class ButtonSize extends React.Component<{}, S> {
-  state: S = {
+class ButtonSize extends React.Component {
+  state = {
     size: 'large',
   };
 
-  handleSizeChange = (e: any) => {
+  handleSizeChange = (e) => {
     this.setState({ size: e.target.value });
   };
 

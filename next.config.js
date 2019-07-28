@@ -20,21 +20,18 @@ module.exports = withLess({
     modifyVars: themeVariables // make your antd custom effective
   },
   webpack: (config, options) => {
-    count++;
+    // console.log(
+    //   `IS DEV?: ${options.dev}`,
+    //   '\n--------------\n',
+    //   `IS SERVER?: ${options.isServer}`,
+    //   '\n--------------\n',
+    //   `config.externals is function?: ${config.externals ? typeof config.externals[0] : undefined }`,
+    //   config.externals,
+    //   '\n--------------\n',
+    //   `config.externals: ${config.externals}`
+    // )
 
-    console.log(
-      `COUNT IS: ${count} 👉\n`,
-      `IS DEV?: ${options.dev}`,
-      '\n--------------\n',
-      `IS SERVER?: ${options.isServer}`,
-      '\n--------------\n',
-      `config.externals is function?: ${config.externals ? typeof config.externals[0] : undefined }`,
-      config.externals,
-      '\n--------------\n',
-      `config.externals: ${config.externals}`
-    )
-
-    if (options.isServer) {
+    if (options.isServer /* && options.dev */) {
       const antStyles = /antd\/.*?\/style.*?/
       const origExternals = [...config.externals]
       config.externals = [
@@ -54,26 +51,7 @@ module.exports = withLess({
         use: 'null-loader',
       })
     }
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: [{
-        loader: '@svgr/webpack',
-        options: {
-          icon: true,
-          replaceAttrValues: {
-            // 灰色を変動色にする
-            '#24282A': 'currentColor',
-            // FIXME: 現在Noneが勝手にcurrentColorに変換されている模様
-            //
-            // 白色を透過色にする
-            // 'white': 'none',
-            // '#fff': 'none',
-            // '#ffffff': 'none',
-          }
-        },
-      }]
-    });
+
     return config
   },
 })
-let count = 0
